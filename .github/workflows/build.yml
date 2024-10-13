@@ -22,12 +22,15 @@ jobs:
         with:
           node-version: 20
 
-      # Install Python 3.9 and node-gyp dependencies on macOS
-      - name: Install Python 3.9 and Xcode Command Line Tools on macOS
+      # Install Python 3.12, distutils, and Xcode Command Line Tools on macOS
+      - name: Install Python 3.12 and Xcode Command Line Tools on macOS
         if: runner.os == 'macOS'
         run: |
-          brew install python@3.9
+          brew install python@3.12
           python3 --version
+          # Install distutils for Python 3.12
+          /opt/homebrew/opt/python@3.12/bin/python3.12 -m ensurepip --upgrade
+          /opt/homebrew/opt/python@3.12/bin/python3.12 -m pip install setuptools
           # Install Xcode Command Line Tools
           xcode-select --install || echo "Xcode Command Line Tools already installed"
           # Verify clang, clang++, and make are available
