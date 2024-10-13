@@ -23,11 +23,17 @@ jobs:
           node-version: 20
 
       # Install Python 3.9 and node-gyp dependencies on macOS
-      - name: Install Python 3.9 on macOS
+      - name: Install Python 3.9 and Xcode Command Line Tools on macOS
         if: runner.os == 'macOS'
         run: |
           brew install python@3.9
           python3 --version
+          # Install Xcode Command Line Tools
+          xcode-select --install || echo "Xcode Command Line Tools already installed"
+          # Verify clang, clang++, and make are available
+          clang --version
+          clang++ --version
+          make --version
 
       # Install Python 3.9 and node-gyp dependencies on Ubuntu
       - name: Install dependencies on Ubuntu
