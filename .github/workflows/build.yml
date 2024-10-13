@@ -22,13 +22,14 @@ jobs:
         with:
           node-version: "20.11.0"
 
-      - name: Install dependencies on Ubuntu
-        if: runner.os == 'Linux'
+      - name: Install Python 3.12 and setuptools on macOS
+        if: runner.os == 'macOS'
         run: |
-          sudo apt-get update
-          sudo apt-get install -y python3.9 make gcc libxtst-dev libx11-dev
-          python3 --version
-          
+          brew install python@3.12 || true
+          python3 -m ensurepip --upgrade
+          python3 -m pip install setuptools --break-system-packages
+          npm config set python $(which python3)
+
       - name: Install Node.js dependencies
         run: npm install
 
