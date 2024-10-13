@@ -46,7 +46,8 @@
       "Screen.mjs",
       "Screenshot.mjs",
       "style.css",
-      "package.json"
+      "package.json",
+      "img/"
     ],
     "publish": {
       "provider": "github",
