@@ -10,7 +10,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [F ubuntu-latest, windows-latest]
 
     steps:
       - name: Checkout code
@@ -20,12 +20,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "20.11.0"
-
-      - name: Install Python 3.9 on macOS
-        if: runner.os == 'macOS'
-        run: |
-          brew install python@3.9
-          python3 --version
 
       # Install Python 3.9 and dependencies on Ubuntu
       - name: Install dependencies on Ubuntu
@@ -57,14 +51,6 @@ jobs:
         with:
           name: ironuki-windows
           path: dist/*.exe
-
-      # Upload macOS Binary
-      - name: Upload macOS Binary
-        if: runner.os == 'macOS'
-        uses: actions/upload-artifact@v4
-        with:
-          name: ironuki-macos
-          path: dist/*.dmg
 
       # Upload Ubuntu .deb File
       - name: Upload Ubuntu .deb File
