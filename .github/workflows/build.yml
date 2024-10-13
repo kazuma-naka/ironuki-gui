@@ -1,0 +1,55 @@
+name: Build/release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+
+      - name: Install Node.js, NPM, and Yarn
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Extract tag name
+        id: extract_tag
+        run: echo "tag_name=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+      - name: Build/release Electron app
+        id: build_release
+        uses: samuelmeuli/action-electron-builder@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          release: true
+
+      - name: Upload Windows Executable
+        if: runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: electron-windows-exe
+          path: dist/*.exe
+
+      - name: Upload macOS Binary
+        if: runner.os == 'macOS'
+        uses: actions/upload-artifact@v4
+        with:
+          name: electron-macos-binary
+          path: dist/*.dmg
+
+      - name: Upload Ubuntu .deb File
+        if: runner.os == 'Linux'
+        uses: actions/upload-artifact@v4
+        with:
+          name: electron-ubuntu-deb
+          path: dist/*.deb

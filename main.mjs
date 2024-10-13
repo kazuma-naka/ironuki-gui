@@ -93,12 +93,12 @@ ipcMain.on("copy-color", (_, hexColor) => {
   console.log(`Color ${hexColor} copied to clipboard!`);
 });
 
-
 ipcMain.on("close-window", () => {
   colorWindow.close();
 });
 
 app.on("window-all-closed", () => {
+  // eslint-disable-next-line no-undef
   if (process.platform !== "darwin") {
     app.quit();
   }
