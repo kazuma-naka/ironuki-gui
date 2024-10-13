@@ -38,8 +38,8 @@ jobs:
       - name: Install Node.js dependencies
         run: npm install
 
-      - name: Run npx ironuki
-        run: npx ironuki
+      - name: Run build command
+        run: npx run build
 
       - name: Build and test npx command
         run: echo "Building and testing on ${{ matrix.os }} complete"
