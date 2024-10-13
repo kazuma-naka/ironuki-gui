@@ -22,6 +22,21 @@ jobs:
         with:
           node-version: 20
 
+      # Install Python 3.9 and node-gyp dependencies on macOS
+      - name: Install Python 3.9 on macOS
+        if: runner.os == 'macOS'
+        run: |
+          brew install python@3.9
+          python3 --version
+
+      # Install Python 3.9 and node-gyp dependencies on Ubuntu
+      - name: Install dependencies on Ubuntu
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3.9 make gcc libxtst-dev libx11-dev
+          python3.9 --version
+
       - name: Extract tag name
         id: extract_tag
         run: echo "tag_name=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
@@ -39,6 +54,7 @@ jobs:
         with:
           name: electron-windows-exe
           path: dist/*.exe
+          if-no-files-found: error
 
       - name: Upload macOS Binary
         if: runner.os == 'macOS'
@@ -46,6 +62,7 @@ jobs:
         with:
           name: electron-macos-binary
           path: dist/*.dmg
+          if-no-files-found: error
 
       - name: Upload Ubuntu .deb File
         if: runner.os == 'Linux'
@@ -53,3 +70,4 @@ jobs:
         with:
           name: electron-ubuntu-deb
           path: dist/*.deb
+          if-no-files-found: error
