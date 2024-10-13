@@ -2,7 +2,7 @@ name: Build and Test Ironuki
 
 on:
   push:
-    branches:
+    tags:
       - "v*"
 
 jobs:
