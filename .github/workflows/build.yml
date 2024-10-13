@@ -22,10 +22,10 @@ jobs:
         with:
           node-version: "20.11.0"
 
-      - name: Install Python 3.9 on macOS
+      - name: Install Python 3.12 on macOS
         if: runner.os == 'macOS'
         run: |
-          brew install python@3.9
+          brew install python@3.12
           python3 --version
       - name: Install dependencies on Ubuntu
         if: runner.os == 'Linux'
