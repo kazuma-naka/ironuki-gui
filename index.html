@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Color Display</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="window">
+      <div id="title-bar">
+        <button id="close-btn">X</button>
+      </div>
+      <div id="color-info">
+        <div class="color-block" id="color-block"></div>
+        <span id="color-hex">#FFFFFF</span>
+      </div>
+    </div>
+
+    <div id="toast" class="toast">Copied: <span id="toast-message"></span></div>
+
+    <script type="module" src="renderer.mjs"></script>
+  </body>
+</html>
