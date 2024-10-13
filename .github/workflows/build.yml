@@ -22,31 +22,19 @@ jobs:
         with:
           node-version: "20.11.0"
 
-      - name: Set up Python (latest)
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.12.0"
-
-      - name: Install dependencies on macOS
+      - name: Install Python 3.9 on macOS
         if: runner.os == 'macOS'
         run: |
-          xcode-select --install || echo "Xcode Command Line Tools already installed"
-          npm config set python $(which python3)
-          node-gyp configure
-
+          brew install python@3.9
+          python3 --version
       - name: Install dependencies on Ubuntu
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install -y make gcc libxtst-dev libx11-dev
+          sudo apt-get install -y python3.9 make gcc libxtst-dev libx11-dev
           python3 --version
-          npm config set python $(which python3)
-          node-gyp configure
-
       - name: Install Node.js dependencies
-        run: |
-          npm install -g node-gyp
-          npm install
+        run: npm install
 
       - name: Run npx ironuki
         run: npx ironuki
