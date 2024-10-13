@@ -25,10 +25,8 @@ jobs:
       - name: Install Python 3.12 and setuptools on macOS
         if: runner.os == 'macOS'
         run: |
-          brew install python@3.12 || true
-          python3 -m ensurepip --upgrade
-          python3 -m pip install setuptools --break-system-packages
-          npm config set python $(which python3)
+          brew install python@3.12
+          python3 -m pip install setuptools
 
       - name: Install Node.js dependencies
         run: npm install
