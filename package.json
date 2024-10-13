@@ -13,6 +13,14 @@
     "name": "Kazuma Naka",
     "email": "kazuma.naka.01@gmail.com"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kazuma-naka/ironuki-gui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kazuma-naka/ironuki-gui/issues"
+  },
+  "homepage": "https://github.com/kazuma-naka/ironuki-gui#readme",
   "license": "MIT",
   "dependencies": {
     "pngjs": "^7.0.0",
@@ -30,8 +38,8 @@
     "prettier": "^3.3.3"
   },
   "build": {
-    "appId": "com.kazumaproject.tempshelf",
-    "productName": "temp-shelf",
+    "appId": "com.kazumaproject.ironukigui",
+    "productName": "ironuki-gui",
     "directories": {
       "buildResources": "build",
       "output": "dist"
