@@ -3,7 +3,7 @@ name: Build and Release Ironuki GUI
 on:
   push:
     tags:
-      - "v*" # This is for release builds, triggering when you push version tags (e.g., v1.0.0)
+      - "v*" # Trigger on version tags like v1.0.0
 
 jobs:
   build:
@@ -21,12 +21,17 @@ jobs:
         with:
           node-version: "20.11.0"
 
-      # Install Python 3.9 on macOS
-      - name: Install Python 3.9 on macOS
+      # Install Python 3.9 on macOS and ensure build tools are available
+      - name: Install Python 3.9 and Xcode tools on macOS
         if: runner.os == 'macOS'
         run: |
           brew install python@3.9
           python3 --version
+          # Install Xcode command line tools (needed for native module compilation)
+          xcode-select --install || echo "Xcode Command Line Tools already installed"
+          # Verify installation
+          clang --version
+          make --version
 
       # Install Python 3.9 and dependencies on Ubuntu
       - name: Install dependencies on Ubuntu
@@ -47,15 +52,11 @@ jobs:
       - name: Install Node.js dependencies
         run: npm install
 
-      # Run the Ironuki GUI npx command
-      - name: Run Ironuki GUI
+      # Run the Ironuki GUI
+      - name: Run npx ironuki
         run: npx ironuki
 
-      # Build and test npx command
-      - name: Build and test npx command
-        run: echo "Building and testing on ${{ matrix.os }} complete"
-
-      # Optional: Upload artifacts for each OS build
+      # Upload Windows Executable
       - name: Upload Windows Executable
         if: runner.os == 'Windows'
         uses: actions/upload-artifact@v4
@@ -63,6 +64,7 @@ jobs:
           name: ironuki-windows
           path: dist/*.exe
 
+      # Upload macOS Binary
       - name: Upload macOS Binary
         if: runner.os == 'macOS'
         uses: actions/upload-artifact@v4
@@ -70,6 +72,7 @@ jobs:
           name: ironuki-macos
           path: dist/*.dmg
 
+      # Upload Ubuntu .deb File
       - name: Upload Ubuntu .deb File
         if: runner.os == 'Linux'
         uses: actions/upload-artifact@v4
