@@ -3,15 +3,14 @@ name: Build and Test Ironuki
 on:
   push:
     branches:
-      - main
-      - dev
+      - "v*"
 
 jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest]
+        os: [macos-latest, ubuntu-latest, windows-latest]
 
     steps:
       - name: Checkout code
@@ -27,6 +26,13 @@ jobs:
         run: |
           brew install python@3.12
           python3 -m pip install setuptools --break-system-packages
+
+      - name: Install Python 3.12 and setuptools on Windows
+        if: runner.os == 'Windows'
+        run: |
+          choco install python --version=3.12
+          python -m ensurepip
+          python -m pip install setuptools
 
       - name: Install dependencies on Ubuntu
         if: runner.os == 'Linux'
@@ -62,3 +68,10 @@ jobs:
         with:
           name: electron-ubuntu-deb
           path: dist/*.deb
+
+      - name: Upload Windows Binary
+        if: runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: electron-windows-binary
+          path: dist/*.exe
