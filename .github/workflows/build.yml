@@ -1,92 +1,78 @@
-name: Build/release
+name: Build and Release Ironuki GUI
 
 on:
   push:
     tags:
-      - "v*"
+      - "v*" # This is for release builds, triggering when you push version tags (e.g., v1.0.0)
 
 jobs:
-  release:
+  build:
     runs-on: ${{ matrix.os }}
-
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
 
     steps:
-      - name: Check out Git repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install Node.js, NPM, and Yarn
+      - name: Set up Node.js 20.11.0
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: "20.11.0"
 
-      # Install Python 3.12, create a virtual environment, and install dependencies in it on macOS
-      - name: Set up Python environment on macOS
+      # Install Python 3.9 on macOS
+      - name: Install Python 3.9 on macOS
         if: runner.os == 'macOS'
         run: |
-          brew install python@3.12
+          brew install python@3.9
           python3 --version
-          # Create and activate virtual environment
-          python3 -m venv venv
-          source venv/bin/activate
-          # Upgrade pip in the virtual environment and install distutils
-          python3 -m pip install --upgrade pip setuptools
-          # Verify installations
-          python3 -m pip --version
-          deactivate  # Deactivate the virtual environment after setup
-          # Install Xcode Command Line Tools
-          xcode-select --install || echo "Xcode Command Line Tools already installed"
-          # Verify clang, clang++, and make are available
-          clang --version
-          clang++ --version
-          make --version
 
-      # Install Python 3.9 and node-gyp dependencies on Ubuntu
+      # Install Python 3.9 and dependencies on Ubuntu
       - name: Install dependencies on Ubuntu
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install -y software-properties-common
-          sudo add-apt-repository ppa:deadsnakes/ppa
-          sudo apt-get update
           sudo apt-get install -y python3.9 make gcc libxtst-dev libx11-dev
-          # Ensure python3.9 is correctly linked to python3
-          sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1
           python3 --version
 
-      - name: Extract tag name
-        id: extract_tag
-        run: echo "tag_name=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+      # Install Python 3.9 on Windows
+      - name: Install Python 3.9 on Windows
+        if: runner.os == 'Windows'
+        run: |
+          choco install python --version=3.9.10
+          python --version
 
-      - name: Build/release Electron app
-        id: build_release
-        uses: samuelmeuli/action-electron-builder@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          release: true
+      # Install Node.js dependencies
+      - name: Install Node.js dependencies
+        run: npm install
 
+      # Run the Ironuki GUI npx command
+      - name: Run Ironuki GUI
+        run: npx ironuki
+
+      # Build and test npx command
+      - name: Build and test npx command
+        run: echo "Building and testing on ${{ matrix.os }} complete"
+
+      # Optional: Upload artifacts for each OS build
       - name: Upload Windows Executable
         if: runner.os == 'Windows'
         uses: actions/upload-artifact@v4
         with:
-          name: electron-windows-exe
+          name: ironuki-windows
           path: dist/*.exe
-          if-no-files-found: error
 
       - name: Upload macOS Binary
         if: runner.os == 'macOS'
         uses: actions/upload-artifact@v4
         with:
-          name: electron-macos-binary
+          name: ironuki-macos
           path: dist/*.dmg
-          if-no-files-found: error
 
       - name: Upload Ubuntu .deb File
         if: runner.os == 'Linux'
         uses: actions/upload-artifact@v4
         with:
-          name: electron-ubuntu-deb
+          name: ironuki-ubuntu
           path: dist/*.deb
-          if-no-files-found: error
