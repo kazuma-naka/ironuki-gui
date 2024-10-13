@@ -27,7 +27,6 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           brew install python@3.9
-          python3 --version
 
       # Install Python 3.9 and node-gyp dependencies on Ubuntu
       - name: Install dependencies on Ubuntu
@@ -35,7 +34,6 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y python3.9 make gcc libxtst-dev libx11-dev
-          python3.9 --version
 
       - name: Extract tag name
         id: extract_tag
