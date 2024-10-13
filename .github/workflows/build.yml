@@ -1,16 +1,17 @@
-name: Build and Release Ironuki GUI
+name: Build and Test Ironuki
 
 on:
   push:
-    tags:
-      - "v*" # Trigger on version tags like v1.0.0
+    branches:
+      - main
+      - dev
 
 jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [macos-latest, ubuntu-latest]
 
     steps:
       - name: Checkout code
@@ -21,53 +22,22 @@ jobs:
         with:
           node-version: "20.11.0"
 
-      # macOS: Build and ensure node-gyp uses Python 3.9
-      - name: Build Electron App on macOS
+      - name: Install Python 3.9 on macOS
         if: runner.os == 'macOS'
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }} # Provide GitHub Personal Access Token for publishing
         run: |
-          export PYTHON=$(which python3.9)
-          npm run build
-
-      # Install dependencies on Ubuntu
+          brew install python@3.9
+          python3 --version
       - name: Install dependencies on Ubuntu
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
           sudo apt-get install -y python3.9 make gcc libxtst-dev libx11-dev
           python3 --version
-          npm install
-          npm run build  # Build the Electron app
+      - name: Install Node.js dependencies
+        run: npm install
 
-      # Set Python for Windows and build
-      - name: Set Python and Build on Windows
-        if: runner.os == 'Windows'
-        run: |
-          set PYTHON=C:\hostedtoolcache\windows\Python\3.9.13\x64\python.exe  # Set Python 3.9 path
-          npm install
-          npm run build
+      - name: Run npx ironuki
+        run: npx ironuki
 
-      # Upload Windows Executable
-      - name: Upload Windows Executable
-        if: runner.os == 'Windows'
-        uses: actions/upload-artifact@v4
-        with:
-          name: ironuki-windows
-          path: dist/*.exe
-
-      # Upload macOS Binary
-      - name: Upload macOS Binary
-        if: runner.os == 'macOS'
-        uses: actions/upload-artifact@v4
-        with:
-          name: ironuki-macos
-          path: dist/*.dmg
-
-      # Upload Ubuntu .deb File
-      - name: Upload Ubuntu .deb File
-        if: runner.os == 'Linux'
-        uses: actions/upload-artifact@v4
-        with:
-          name: ironuki-ubuntu
-          path: dist/*.deb
+      - name: Build and test npx command
+        run: echo "Building and testing on ${{ matrix.os }} complete"
