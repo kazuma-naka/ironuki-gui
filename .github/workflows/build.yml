@@ -38,8 +38,27 @@ jobs:
       - name: Install Node.js dependencies
         run: npm install
 
-      - name: Run build command
-        run: npm run build
+      - name: Extract tag name
+        id: extract_tag
+        run: echo "tag_name=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
-      - name: Build and test npx command
-        run: echo "Building and testing on ${{ matrix.os }} complete"
+      - name: Build/release Electron app
+        id: build_release
+        uses: samuelmeuli/action-electron-builder@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          release: true
+
+      - name: Upload macOS Binary
+        if: runner.os == 'macOS'
+        uses: actions/upload-artifact@v4
+        with:
+          name: electron-macos-binary
+          path: dist/*.dmg
+
+      - name: Upload Ubuntu .deb File
+        if: runner.os == 'Linux'
+        uses: actions/upload-artifact@v4
+        with:
+          name: electron-ubuntu-deb
+          path: dist/*.deb
