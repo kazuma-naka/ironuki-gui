@@ -22,11 +22,10 @@ jobs:
         with:
           node-version: "20.11.0"
 
-      - name: Install Python 3.12 and dependencies on macOS
+      - name: Install Python 3.12 on macOS
         if: runner.os == 'macOS'
         run: |
           brew install python@3.12
-          brew install node-gyp
           xcode-select --install
           npm config set python /usr/local/bin/python3
           python3 --version
@@ -39,7 +38,9 @@ jobs:
           python3 --version
 
       - name: Install Node.js dependencies
-        run: npm install
+        run: |
+          npm install -g node-gyp
+          npm install
 
       - name: Run npx ironuki
         run: npx ironuki
