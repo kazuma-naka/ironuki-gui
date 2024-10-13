@@ -39,7 +39,7 @@ jobs:
         run: npm install
 
       - name: Run build command
-        run: npx run build
+        run: npm run build
 
       - name: Build and test npx command
         run: echo "Building and testing on ${{ matrix.os }} complete"
