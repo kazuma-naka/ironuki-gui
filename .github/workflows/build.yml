@@ -22,23 +22,16 @@ jobs:
         with:
           node-version: "20.11.0"
 
-      - name: Install Python 3.12 on macOS
+      - name: Install Python 3.12 and distutils on macOS
         if: runner.os == 'macOS'
         run: |
           if ! python3 --version | grep -q "3.12"; then
             brew install python@3.12
-          else
-            echo "Python 3.12 is already installed"
           fi
-
-      - name: Install Xcode Command Line Tools on macOS
-        if: runner.os == 'macOS'
-        run: |
-          if ! xcode-select -p > /dev/null; then
-            xcode-select --install
-          else
-            echo "Xcode Command Line Tools are already installed"
-          fi
+          # Install distutils manually
+          /opt/homebrew/bin/python3.12 -m ensurepip --upgrade
+          /opt/homebrew/bin/python3.12 -m pip install setuptools
+          python3 --version
 
       - name: Install dependencies on Ubuntu
         if: runner.os == 'Linux'
