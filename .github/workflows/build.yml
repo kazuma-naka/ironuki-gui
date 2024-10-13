@@ -10,7 +10,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [F ubuntu-latest, windows-latest]
+        os: [macos-latest, ubuntu-latest, windows-latest]
 
     steps:
       - name: Checkout code
@@ -20,6 +20,19 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "20.11.0"
+
+      # Ensure node-gyp uses Python 3.9 on macOS without installing
+      - name: Force node-gyp to use Python 3.9 on macOS
+        if: runner.os == 'macOS'
+        run: |
+          # Force node-gyp to use Python 3.9 (assumed to already exist on the runner)
+          export PYTHON=$(which python3.9)
+          echo "Using PYTHON from $PYTHON"
+          python3.9 --version
+          # Install Xcode command line tools (needed for native module compilation)
+          xcode-select --install || echo "Xcode Command Line Tools already installed"
+          clang --version
+          make --version
 
       # Install Python 3.9 and dependencies on Ubuntu
       - name: Install dependencies on Ubuntu
@@ -38,11 +51,15 @@ jobs:
 
       # Install Node.js dependencies
       - name: Install Node.js dependencies
-        run: npm install
+        run: |
+          export PYTHON=$(which python3.9)  # Ensure node-gyp uses Python 3.9
+          npm install
 
-      # Run the Ironuki GUI
-      - name: Run npx ironuki
-        run: npx ironuki
+      # **Build the Electron App**
+      - name: Build Electron App
+        run: |
+          export PYTHON=$(which python3.9)  # Ensure node-gyp uses Python 3.9 during build
+          npm run build  # Run your Electron build command (adjust if needed)
 
       # Upload Windows Executable
       - name: Upload Windows Executable
@@ -51,6 +68,14 @@ jobs:
         with:
           name: ironuki-windows
           path: dist/*.exe
+
+      # Upload macOS Binary
+      - name: Upload macOS Binary
+        if: runner.os == 'macOS'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ironuki-macos
+          path: dist/*.dmg
 
       # Upload Ubuntu .deb File
       - name: Upload Ubuntu .deb File
