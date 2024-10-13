@@ -21,21 +21,11 @@ jobs:
         with:
           node-version: "20.11.0"
 
-      # Install Python 3.9 on macOS and ensure node-gyp uses it
-      - name: Install Python 3.9 and set path on macOS
+      - name: Install Python 3.9 on macOS
         if: runner.os == 'macOS'
         run: |
           brew install python@3.9
           python3 --version
-          # Set the correct Python path to make node-gyp use Python 3.9
-          export PATH="/opt/homebrew/opt/python@3.9/bin:$PATH"
-          # Verify that the correct Python version is being used
-          python3 --version
-          # Install Xcode command line tools (needed for native module compilation)
-          xcode-select --install || echo "Xcode Command Line Tools already installed"
-          # Verify installation
-          clang --version
-          make --version
 
       # Install Python 3.9 and dependencies on Ubuntu
       - name: Install dependencies on Ubuntu
