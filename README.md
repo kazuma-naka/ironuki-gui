@@ -1,4 +1,8 @@
+[![Build and Test Ironuki](https://github.com/kazuma-naka/ironuki-gui/actions/workflows/build.yml/badge.svg)](https://github.com/kazuma-naka/ironuki-gui/actions/workflows/build.yml) ![Version](https://img.shields.io/github/package-json/v/kazuma-naka/ironuki-gui) ![License](https://img.shields.io/github/license/kazuma-naka/ironuki-gui) ![Downloads](https://img.shields.io/github/downloads/kazuma-naka/ironuki-gui/total) ![Platform Support](https://img.shields.io/badge/platform-Linux%20|%20Windows%20|%20macOS-blue) ![Node.js](https://img.shields.io/badge/node-%3E=20.11.0-brightgreen) ![Electron Version](https://img.shields.io/badge/electron-v30.5.1-blue) ![GitHub Stars](https://img.shields.io/github/stars/kazuma-naka/ironuki-gui)
+
 # Ironuki-GUI
+
+![demo gif](demo/ironuki-gui-demo.gif)
 
 **Ironuki-GUI** is a simple, minimalist GUI application for capturing the color under the mouse cursor and copying it to the clipboard in hex format. The app is designed to be lightweight and easy to use, with a clean and modern interface.
 
@@ -41,9 +45,11 @@ This project uses the following key libraries:
    npm start
    ```
 
+or you can find installers [in here](https://github.com/kazuma-naka/ironuki-gui/releases)
+
 ## Usage
 
-1. Launch the app using `npm start`.
+1. Launch the app.
 2. The app window will show the current color under your mouse cursor.
 3. Click anywhere within the window to copy the hex color code to your clipboard.
 4. The app will display a toast notification confirming that the color has been copied.
