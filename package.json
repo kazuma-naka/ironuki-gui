@@ -28,5 +28,44 @@
     "eslint-config-prettier": "^9.1.0",
     "globals": "^15.9.0",
     "prettier": "^3.3.3"
+  },
+  "build": {
+    "appId": "com.kazumaproject.tempshelf",
+    "productName": "temp-shelf",
+    "directories": {
+      "buildResources": "build",
+      "output": "dist"
+    },
+    "files": [
+      "preload.js",
+      "main.mjs",
+      "renderer.mjs",
+      "index.html",
+      "ColorCapture.mjs",
+      "ColorProcessor.mjs",
+      "Screen.mjs",
+      "Screenshot.mjs",
+      "style.css",
+      "package.json"
+    ],
+    "publish": {
+      "provider": "github",
+      "owner": "kazuma-naka",
+      "repo": "ironuki-gui",
+      "releaseType": "release"
+    },
+    "mac": {
+      "category": "public.app-category.utilities",
+      "target": "dmg",
+      "icon": "img/logo.icns"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "img/logo.ico"
+    },
+    "linux": {
+      "target": "deb",
+      "icon": "img/icon.png"
+    }
   }
 }
