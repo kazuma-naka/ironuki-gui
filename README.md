@@ -87,13 +87,6 @@ Contributions are welcome! Please feel free to submit a pull request or open an 
 
 ---
 
-## 謝辞
-
-- このアプリは[Electron](https://www.electronjs.org/)を使用して構築されています。
-- [robotjs](https://www.npmjs.com/package/robotjs)を使用してマウスの位置を追跡し、[screenshot-desktop](https://www.npmjs.com/package/screenshot-desktop)で画面をキャプチャし、[pngjs](https://www.npmjs.com/package/pngjs)で画像処理を行っています。
-
----
-
 **Ironuki-GUI**は、マウスカーソルの下にある色をキャプチャして、16進数形式でクリップボードにコピーするためのシンプルでミニマルなGUIアプリケーションです。このアプリは、軽量で使いやすく、クリーンでモダンなインターフェースを備えています。
 
 ## 機能
@@ -154,3 +147,8 @@ Contributions are welcome! Please feel free to submit a pull request or open an 
 ## Contribution
 
 Contribution は大歓迎です！ご提案やバグ報告について、プルリクエストの提出や Issue の作成を気軽に行ってください。
+
+## 謝辞
+
+- このアプリは[Electron](https://www.electronjs.org/)を使用して構築されています。
+- [robotjs](https://www.npmjs.com/package/robotjs)を使用してマウスの位置を追跡し、[screenshot-desktop](https://www.npmjs.com/package/screenshot-desktop)で画面をキャプチャし、[pngjs](https://www.npmjs.com/package/pngjs)で画像処理を行っています。
