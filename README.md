@@ -1,7 +1,3 @@
-Here is the revised version of the content, with both the English and Japanese sections in the table of contents and body:
-
----
-
 [![Build and Test Ironuki](https://github.com/kazuma-naka/ironuki-gui/actions/workflows/build.yml/badge.svg)](https://github.com/kazuma-naka/ironuki-gui/actions/workflows/build.yml) ![Version](https://img.shields.io/github/package-json/v/kazuma-naka/ironuki-gui) ![License](https://img.shields.io/github/license/kazuma-naka/ironuki-gui) ![Downloads](https://img.shields.io/github/downloads/kazuma-naka/ironuki-gui/total) ![Platform Support](https://img.shields.io/badge/platform-Linux%20|%20Windows%20|%20macOS-blue) ![Node.js](https://img.shields.io/badge/node-%3E=20.11.0-brightgreen) ![Electron Version](https://img.shields.io/badge/electron-v30.5.1-blue) ![GitHub Stars](https://img.shields.io/github/stars/kazuma-naka/ironuki-gui)
 
 # Ironuki-GUI
